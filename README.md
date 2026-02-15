@@ -1,6 +1,8 @@
 # Distributed-Trace-Workbench
 Real-Time User Activity &amp; Distributed Performance Monitoring
 
+[한국어 🇰🇷](README.Ko.md)
+
 Built a full-stack observability platform using .NET OpenTelemetry SDK to:
 
 - Capture real-time user activity logs
