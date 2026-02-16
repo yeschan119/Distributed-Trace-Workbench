@@ -28,7 +28,7 @@ All telemetry data is instrumented via OpenTelemetry in ASP.NET Core, processed 
 
 ## Architecture Overview
 
-<img width="1841" height="582" alt="apm" src="https://github.com/user-attachments/assets/316de877-6da1-488a-a2f2-817cc3bea4d1" />
+<img width="1881" height="582" alt="apm" src="https://github.com/user-attachments/assets/8207051e-7b21-46f2-9fa1-a31bcdbab0b8" />
 
 ---
 
