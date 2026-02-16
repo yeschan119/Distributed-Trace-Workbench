@@ -100,7 +100,7 @@ TraceId / SpanId 구조를 통해 전체 분산 트레이스 트리를 재구성
 - CRUD 활동 기록 추적
 - 시간 기반 필터링
 
-### 📈 Benchmark Dashboard
+### 📈 Workbench Dashboard
 - Top 10 느린 Controller
 - Top 10 빠른 Controller
 - Top 10 API
