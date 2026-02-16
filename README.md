@@ -1,6 +1,7 @@
 # APM-Dashboard
 ### Internal Application Performance Monitoring Platform
-<img width="1536" height="1024" alt="workbench" src="https://github.com/user-attachments/assets/b86be7c8-8fdf-448e-8ade-afd6a4822723" />
+
+<img width="1536" height="1024" alt="apm" src="https://github.com/user-attachments/assets/36f95e16-4413-458b-a4d4-38be820870c6" />
 
 [한국어 🇰🇷](README.Ko.md)
 
