@@ -1,37 +1,38 @@
-# Distributed-Trace-Workbench
-### Real-Time User Activity & Distributed Performance Monitoring
+# APM-Dashboard
+### Internal Application Performance Monitoring Platform
 
 [한국어 🇰🇷](README.Ko.md)
 
-Distributed-Trace-Workbench is a custom observability platform built using the .NET OpenTelemetry SDK.
+APM-Dashboard is a custom-built internal Application Performance Monitoring (APM) system implemented using the .NET OpenTelemetry SDK.
 
-It unifies real-time user activity logging and distributed performance tracing into a single telemetry pipeline. The system instruments ASP.NET Core applications, generates hierarchical spans (Controller → API → SQL), exports structured trace data via a custom exporter, and persists it in DynamoDB.
+The platform instruments ASP.NET Core applications to capture distributed traces across Controller → API → SQL layers, exports structured telemetry data via a custom exporter, and persists it in DynamoDB. An Angular-based dashboard provides performance benchmarking, trace inspection, and activity analysis.
 
-The platform provides an Angular-based Workbench dashboard for activity tracking, performance benchmarking, and trace visualization — functioning as an internal APM alternative.
+This system functions as a lightweight internal alternative to external APM tools.
 
 ---
 
 ## 📌 Project Overview
 
-This system captures and models:
+The APM Dashboard captures and models:
 
-1. User Activity Logs (CRUD operations)
-2. System Performance Traces (Controller → API → SQL)
-3. Distributed Trace Trees (Parent / Child Span relationships)
+1. Application Performance Traces (Controller → API → SQL)
+2. Distributed Trace Trees (Parent / Child Span relationships)
+3. User Activity Logs (CRUD operations)
+4. Performance Benchmark Metrics (Top10 Slowest / Fastest Endpoints)
 
-All telemetry is instrumented via OpenTelemetry in ASP.NET Core, processed through a custom exporter, and stored in DynamoDB using a TraceId/SpanId data model.
+All telemetry data is instrumented via OpenTelemetry in ASP.NET Core, processed through a custom exporter, and stored using a TraceId / SpanId model in DynamoDB.
 
 ---
 
 ## 🏗 Architecture Overview
 
-Client (Angular Workbench UI)  
+Client (Angular APM Dashboard)  
         │  
         ▼  
 ASP.NET Core API (OpenTelemetry Instrumented)  
         │  
         ▼  
-Custom Workbench Exporter  
+Custom Telemetry Exporter  
         │  
         ▼  
 DynamoDB (Trace Storage)  
@@ -40,33 +41,32 @@ DynamoDB (Trace Storage)
 ASP.NET Core Read API  
         │  
         ▼  
-Angular Dashboard & Trace Tree UI  
+Angular Dashboard (APM Console)  
 
 ---
 
 ## 🔍 Execution Flow
 
-### 1️⃣ Incoming HTTP Request
+### 1️⃣ HTTP Request Instrumentation
 - ASP.NET Core Controller receives request.
+- OpenTelemetry automatically creates a Server Span.
 
-### 2️⃣ OpenTelemetry Instrumentation
+### 2️⃣ Distributed Span Generation
 - AspNetCore → Server Span
 - HttpClient → Client Span
 - SqlClient → DB Span
+- TraceId / SpanId assigned
+- Parent / Child hierarchy constructed
 
-### 3️⃣ Distributed Trace Creation
-- TraceId / SpanId generated
-- Parent / Child span hierarchy constructed
+### 3️⃣ Telemetry Export
+- Custom Exporter converts Span into structured JSON.
+- Batched export to DynamoDB.
 
-### 4️⃣ Custom Exporter
-- Span converted into structured JSON
-- Batch export to DynamoDB
-
-### 5️⃣ DynamoDB Storage
+### 4️⃣ Trace Persistence
 - PK: TraceId
 - SK: SpanId
 - TTL: 7 Days
-- Mode: On-Demand
+- On-Demand mode for scalable write throughput.
 
 ---
 
@@ -85,56 +85,57 @@ Angular Dashboard & Trace Tree UI
 | ParentSpanId | Span Hierarchy |
 | ExpireAt | TTL (7 Days) |
 
-The TraceId/SpanId structure enables full reconstruction of distributed span trees.
+The TraceId/SpanId schema enables full reconstruction of distributed trace trees.
 
 ---
 
-## 📊 Workbench Features
+## 📊 APM Dashboard Features
 
-### 🧾 Activity Log Dashboard
-- User information
-- CRUD activity tracking
-- Timestamp-based filtering
-
-### 📈 Workbench Dashboard
+### 📈 Performance Benchmarking
 - Top 10 Slowest Controllers
 - Top 10 Fastest Controllers
 - Top 10 APIs
 - Top 10 SQL Queries
+- Execution time ranking
 
-### 🌳 Distributed Trace Tree
-Visual representation of span hierarchy:
+### 🌳 Distributed Trace Viewer
+Hierarchical visualization:
 
 Controller  
   └── API  
         └── SQL  
 
-TraceId-based tree reconstruction using ParentSpanId relationships.
+TraceId-based span reconstruction using ParentSpanId relationships.
 
-### 🧠 SQL Modal
+### 🧾 User Activity Monitoring
+- CRUD action tracking
+- User-based filtering
+- Timestamp-based inspection
+
+### 🧠 SQL Inspection Panel
 - Pretty-formatted SQL
-- Copy-to-clipboard support
 - Execution time display
+- Copy-to-clipboard support
 
 ---
 
 ## ⚙️ Technical Highlights
 
-### Unified Observability Model
-User activity logging and performance tracing handled through a single OpenTelemetry pipeline.
+### OpenTelemetry-Based APM Implementation
+Implemented distributed tracing using .NET OpenTelemetry SDK.
 
-### Custom OpenTelemetry Exporter
-- Converts spans into structured JSON
+### Custom Telemetry Exporter
+- Span → Structured JSON transformation
 - Batch writes to DynamoDB
-- Supports TTL-based automatic expiration
+- TTL-based automatic cleanup
 
 ### Distributed Trace Modeling
-- PK = TraceId
-- SK = SpanId
+- TraceId as partition key
+- SpanId as sort key
 - ParentSpanId for hierarchical reconstruction
 
-### Internal APM Design
-Designed as a lightweight internal observability system without relying on external SaaS monitoring tools.
+### Internal APM System Design
+Designed as a lightweight internal performance monitoring solution without relying on external SaaS monitoring platforms.
 
 ---
 
@@ -147,8 +148,8 @@ Backend:
 
 Frontend:
 - Angular
-- Tree View UI
 - Dashboard Components
+- Trace Tree Viewer
 
 Database:
 - Amazon DynamoDB (On-Demand + TTL)
@@ -160,8 +161,8 @@ Cloud:
 
 ## 📌 Project Summary
 
-Distributed-Trace-Workbench is a full-stack observability system that captures, models, stores, and visualizes distributed traces using .NET OpenTelemetry and DynamoDB.
+APM-Dashboard is an internal Application Performance Monitoring system that captures, models, stores, and visualizes distributed traces using .NET OpenTelemetry and DynamoDB.
 
-It integrates user activity logging and performance monitoring into a unified trace model, reconstructs span hierarchies via TraceId/SpanId relationships, and exposes analytical dashboards for benchmarking and trace inspection.
+The platform integrates performance tracing and user activity monitoring into a unified telemetry model, reconstructs span hierarchies via TraceId/SpanId relationships, and exposes analytical dashboards for performance benchmarking and trace inspection.
 
-The project demonstrates practical implementation of distributed tracing, custom telemetry exporting, DynamoDB-based trace persistence, and internal APM system design without third-party monitoring platforms.
+This project demonstrates practical implementation of distributed tracing, custom telemetry exporting, DynamoDB-based trace persistence, and internal APM architecture design without third-party monitoring services.
