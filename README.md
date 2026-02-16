@@ -96,7 +96,7 @@ The TraceId/SpanId structure enables full reconstruction of distributed span tre
 - CRUD activity tracking
 - Timestamp-based filtering
 
-### 📈 Benchmark Dashboard
+### 📈 Workbench Dashboard
 - Top 10 Slowest Controllers
 - Top 10 Fastest Controllers
 - Top 10 APIs
