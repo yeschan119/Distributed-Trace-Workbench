@@ -140,6 +140,32 @@ ParentSpanId 기반 TraceId 단위 트리 재구성
 ### 내부 APM 아키텍처 설계
 외부 모니터링 SaaS에 의존하지 않는 경량 내부 성능 관측 시스템 구현.
 
+### AWS 리소스 메트릭 수집
+
+CPU 사용량 및 메모리 사용량과 같은 인프라 레벨 성능 지표는 AWS SDK for .NET을 활용하여 수집합니다.
+
+- AWS SDK for .NET (CloudWatch)
+- 실시간 메트릭 조회
+- 애플리케이션 트레이스와 함께 APM 대시보드에 통합
+
+이를 통해 애플리케이션 지연 시간과 인프라 상태를 상관 분석할 수 있습니다.
+
+### Batch 기반 텔레메트리 저장 최적화
+
+DynamoDB 쓰기 성능과 비용 최적화를 위해 Hybrid Batch 전략을 적용하였습니다.
+
+- Batch Size: 20개 Span 단위 저장
+- Time-based Flush: Batch가 차지 않은 경우 30초마다 저장
+- 비동기 백그라운드 Export 처리
+
+이 설계를 통해:
+
+- DynamoDB Write 비용 감소
+- Write Amplification 최소화
+- 안정적인 Ingestion 처리량 유지
+- 텔레메트리 유실 위험 최소화
+
+를 달성하였습니다.
 ---
 
 ## 🛠 기술 스택
