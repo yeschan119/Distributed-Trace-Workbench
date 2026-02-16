@@ -138,6 +138,32 @@ Implemented distributed tracing using .NET OpenTelemetry SDK.
 ### Internal APM System Design
 Designed as a lightweight internal performance monitoring solution without relying on external SaaS monitoring platforms.
 
+### AWS Resource Metrics Collection
+
+The dashboard collects infrastructure-level performance metrics such as CPU usage and memory usage using the AWS SDK for .NET.
+
+- AWS SDK for .NET (CloudWatch)
+- Real-time metric polling
+- Integrated into the APM dashboard alongside application traces
+
+This allows correlation between application latency and underlying infrastructure behavior.
+
+---
+
+### Optimized Batch Telemetry Persistence
+
+To improve write performance and reduce DynamoDB overhead, telemetry data is persisted using a hybrid batch strategy:
+
+- Batch size: 20 spans per write
+- Time-based flush: every 30 seconds if batch is not full
+- Asynchronous background exporter
+
+This dual-trigger mechanism ensures:
+- Reduced write amplification
+- Lower DynamoDB cost
+- Stable ingestion throughput
+- Minimal telemetry loss risk
+
 ---
 
 ## 🛠 Tech Stack
